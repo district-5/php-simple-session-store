@@ -41,6 +41,9 @@ class StorageTest extends SessionTestBase
         return new Storage();
     }
 
+    /**
+     * @runInSeparateProcess
+     */
     public function testLocks()
     {
         $_SESSION = array();
@@ -50,6 +53,9 @@ class StorageTest extends SessionTestBase
         $this->assertTrue($storage->isLocked());
     }
 
+    /**
+     * @runInSeparateProcess
+     */
     public function testSetWithLocks()
     {
         $_SESSION = array();
@@ -60,6 +66,9 @@ class StorageTest extends SessionTestBase
         $this->assertTrue($storage->set('abc', '123'));
     }
 
+    /**
+     * @runInSeparateProcess
+     */
     public function testGet()
     {
         $_SESSION = array();
@@ -70,6 +79,9 @@ class StorageTest extends SessionTestBase
         $this->assertEquals('123', $storage->get('abc'));
     }
 
+    /**
+     * @runInSeparateProcess
+     */
     public function testGetAll()
     {
         $_SESSION = array();
@@ -85,6 +97,9 @@ class StorageTest extends SessionTestBase
         $this->assertEmpty($storage->getAll());
     }
 
+    /**
+     * @runInSeparateProcess
+     */
     public function testGetAllNotStarted()
     {
         $_SESSION = array();
@@ -93,6 +108,9 @@ class StorageTest extends SessionTestBase
         $this->assertFalse($storage->getAll());
     }
 
+    /**
+     * @runInSeparateProcess
+     */
     public function testRemoveExists()
     {
         $_SESSION = array();
@@ -105,6 +123,9 @@ class StorageTest extends SessionTestBase
         $this->assertFalse($storage->remove('abc')); // false as locked.
     }
 
+    /**
+     * @runInSeparateProcess
+     */
     public function testRemoveAll()
     {
         $_SESSION = array();
@@ -118,6 +139,9 @@ class StorageTest extends SessionTestBase
         $this->assertFalse($storage->removeAll());
     }
 
+    /**
+     * @runInSeparateProcess
+     */
     public function testDestroyAll()
     {
         $_SESSION = array();
@@ -131,6 +155,9 @@ class StorageTest extends SessionTestBase
         $this->assertFalse($storage->destroy());
     }
 
+    /**
+     * @runInSeparateProcess
+     */
     public function testReConstruct()
     {
         $_SESSION = array();
@@ -149,6 +176,9 @@ class StorageTest extends SessionTestBase
         $storage->__construct();
     }
 
+    /**
+     * @runInSeparateProcess
+     */
     public function testRemoveSession()
     {
         $_SESSION = array();
@@ -163,6 +193,9 @@ class StorageTest extends SessionTestBase
         $this->fail('exception was expected');
     }
 
+    /**
+     * @runInSeparateProcess
+     */
     public function testNoSessionName()
     {
         $_SESSION = array();
@@ -176,6 +209,9 @@ class StorageTest extends SessionTestBase
         $this->fail('exception was expected');
     }
 
+    /**
+     * @runInSeparateProcess
+     */
     public function testUnderscoreSessionName()
     {
         $_SESSION = array();
@@ -189,6 +225,9 @@ class StorageTest extends SessionTestBase
         $this->fail('exception was expected');
     }
 
+    /**
+     * @runInSeparateProcess
+     */
     public function testNumberSessionName()
     {
         $_SESSION = array();

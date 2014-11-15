@@ -41,6 +41,9 @@ class SessionTest extends SessionTestBase
         return Session::getInstance();
     }
 
+    /**
+     * @runInSeparateProcess
+     */
     public function testRegenerate()
     {
         $_SESSION = array();
@@ -48,6 +51,9 @@ class SessionTest extends SessionTestBase
         $this->assertTrue($storage->destroy(true));
     }
 
+    /**
+     * @runInSeparateProcess
+     */
     public function testSetAndGet()
     {
         $_SESSION = array();
@@ -56,6 +62,9 @@ class SessionTest extends SessionTestBase
         $this->assertEquals('123', $storage->get('abc'));
     }
 
+    /**
+     * @runInSeparateProcess
+     */
     public function testRemove()
     {
         $_SESSION = array();
@@ -64,6 +73,9 @@ class SessionTest extends SessionTestBase
         $this->assertTrue($storage->remove('abc'));
     }
 
+    /**
+     * @runInSeparateProcess
+     */
     public function testRemoveAll()
     {
         $_SESSION = array();
@@ -72,6 +84,9 @@ class SessionTest extends SessionTestBase
         $this->assertTrue($storage->removeAll());
     }
 
+    /**
+     * @runInSeparateProcess
+     */
     public function testHeaders()
     {
         $_SESSION = array();

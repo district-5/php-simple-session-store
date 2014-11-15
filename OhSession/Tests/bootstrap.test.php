@@ -1,5 +1,4 @@
 <?php
-ob_start();
 /**
  * OhSession - a session management library for PHP
  *
