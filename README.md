@@ -3,19 +3,6 @@ SimpleSessionStore
 
 SimpleSessionStore is a session management library for PHP. It was originally part of OhSession.
 
-Using Composer
---------------
-
-To use SimpleSessionStore with Composer, add the dependency (and version constraint) to your require block inside your `composer.json` file.
-
-```json
-{
-    "require": {
-        "district5/simple-session-store": "1.0.*"
-    }
-}
-```
-
 ### Class overview:
 
 * `\District5\SimpleSessionStore\Session`
