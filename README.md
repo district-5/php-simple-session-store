@@ -24,7 +24,7 @@ SimpleSessionStore is a session management library for PHP. It was originally pa
           }
       ],
       "require": {
-          "district-5/simple-session-store": ">=1.0.0"
+          "district-5/simple-session-store": ">=1.0.5"
       }
     }  
     ```
