@@ -1,39 +1,24 @@
 <?php
 /**
- * OhSession - a session management library for PHP
+ * District5 - SimpleSessionStore
  *
- * @author      Roger Thomas <roger.thomas@rogerethomas.com>
- * @copyright   2014 Roger Thomas
- * @link        http://www.rogerethomas.com
- * @license     http://www.rogerethomas.com/license
- * @since       1.0
- * @package     OhSession
+ * @copyright District5
  *
- * MIT LICENSE
+ * @author District5
+ * @link https://www.district5.co.uk
  *
- * Permission is hereby granted, free of charge, to any person obtaining
- * a copy of this software and associated documentation files (the
- * "Software"), to deal in the Software without restriction, including
- * without limitation the rights to use, copy, modify, merge, publish,
- * distribute, sublicense, and/or sell copies of the Software, and to
- * permit persons to whom the Software is furnished to do so, subject to
- * the following conditions:
+ * @license This software and associated documentation (the "Software") may not be
+ * used, copied, modified, distributed, published or licensed to any 3rd party
+ * without the written permission of District5 or its author.
  *
- * The above copyright notice and this permission notice shall be
- * included in all copies or substantial portions of the Software.
+ * The above copyright notice and this permission notice shall be included in
+ * all licensed copies of the Software.
  *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
- * EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
- * MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
- * NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE
- * LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
- * OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
- * WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-namespace OhSession;
+namespace District5\SimpleSessionStore;
 
 /**
- * Session
+ * Class Session
  *
  * This class controls the basic Session functionality that's needed for
  * applications of any size.
@@ -41,33 +26,35 @@ namespace OhSession;
  * The primary goal of this class is to provide a simplistic interface to
  * interact with session data.
  *
- * @package OhSession
- * @author  Roger Thomas <roger.thomas@rogerethomas.com>
+ * @package District5\SimpleSessionStore
  */
-class Session {
+class Session
+{
+    const SESSION_PREFIX = '__D5_';
 
     /**
      * Instance of this class
      *
-     * @var \OhSession\Session
+     * @var Session
      */
     protected static $_instance = null;
 
     /**
-     * @var \OhSession\Storage
+     * @var Storage
      */
     private $instance = false;
 
     /**
      * Protected __construct()
      *
-     * @throws \Exception
+     * @throws SessionException
      */
     final protected function __construct()
     {
+        /** @noinspection SpellCheckingInspection */
         if (headers_sent($filename, $linenum)) {
             // @codeCoverageIgnoreStart
-            throw new \Exception('Headers already sent in ' . $filename . '::' . $linenum);
+            throw new SessionException('Headers already sent in ' . $filename . '::' . $linenum);
             // @codeCoverageIgnoreEnd
         } else {
             $this->setup();
@@ -75,9 +62,10 @@ class Session {
     }
 
     /**
-     * Retrieve an instance of \OhSession\Session
+     * Retrieve an instance of Session
      *
-     * @return \OhSession\Session
+     * @return Session
+     * @throws SessionException
      */
     public static function getInstance()
     {
@@ -92,7 +80,7 @@ class Session {
      *
      * @param string $name
      * @param mixed $value
-     * @throws \Exception
+     * @throws SessionException
      * @return boolean result of set
      */
     public function set($name, $value)
@@ -108,7 +96,7 @@ class Session {
      * Remove a single value from the session
      *
      * @param string $name
-     * @throws \Exception
+     * @throws SessionException
      * @return boolean
      */
     public function remove($name)
@@ -122,7 +110,7 @@ class Session {
     /**
      * Clear all session values outside of the namespace.
      *
-     * @throws \Exception
+     * @throws SessionException
      * @return boolean
      */
     public function removeAll()
@@ -138,7 +126,7 @@ class Session {
      * to regenerate a new session id.
      *
      * @param boolean $regenerate
-     * @throws \Exception
+     * @throws SessionException
      * @return boolean
      */
     public function destroy($regenerate = false)
@@ -155,8 +143,8 @@ class Session {
      * Retrieve a value from the session
      *
      * @param string $name
-     * @throws \Exception
-     * @return value|boolean false for failure
+     * @throws SessionException
+     * @return mixed|false for failure
      */
     public function get($name)
     {
@@ -168,6 +156,6 @@ class Session {
      */
     protected function setup()
     {
-        $this->instance = new \OhSession\Storage('__Sf_');
+        $this->instance = new Storage(self::SESSION_PREFIX);
     }
 }
