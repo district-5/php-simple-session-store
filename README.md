@@ -17,14 +17,8 @@ SimpleSessionStore is a session management library for PHP. It was originally pa
 * Example Composer file contents:
     ```json
     {
-      "repositories":[
-          {
-              "type": "vcs",
-              "url": "git@github.com:district-5/php-simple-session-store.git"
-          }
-      ],
       "require": {
-          "district5/simple-session-store": ">=1.0.5"
+          "district5/simple-session-store": ">=1.1.0"
       }
     }  
     ```
