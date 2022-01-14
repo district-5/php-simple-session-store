@@ -1,19 +1,19 @@
 {
-    "name": "district-5/simple-session-store",
+    "name": "district5/simple-session-store",
     "description": "SimpleSessionStore is a session management library for PHP",
     "keywords": ["simple-session-store", "session", "store"],
     "homepage": "https://github.com/district-5/php-simple-session-store",
     "license": "Proprietary",
     "authors": [
         {
-            "name": "Roger Thomas",
-            "email": "roger.thomas@district5.co.uk"
+            "name": "District5",
+            "email": "hello@district5.co.uk"
         }
     ],
     "require": {
-        "php": ">=7.1"
+        "php": ">=7.4"
     },
     "autoload": {
-        "psr-4": { "District5\\": "src/" }
+        "psr-4": { "District5\\SimpleSessionStore\\": "src/SimpleSessionStore/" }
     }
 }

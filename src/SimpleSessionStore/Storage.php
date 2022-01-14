@@ -1,20 +1,33 @@
 <?php
 /**
- * District5 - SimpleSessionStore
+ * District5 Session Store Library
  *
- * @copyright District5
+ * @author      District5 <hello@district5.co.uk>
+ * @copyright   District5 <hello@district5.co.uk>
+ * @link        https://www.district5.co.uk
  *
- * @author District5
- * @link https://www.district5.co.uk
+ * MIT LICENSE
  *
- * @license This software and associated documentation (the "Software") may not be
- * used, copied, modified, distributed, published or licensed to any 3rd party
- * without the written permission of District5 or its author.
+ * Permission is hereby granted, free of charge, to any person obtaining
+ * a copy of this software and associated documentation files (the
+ * "Software"), to deal in the Software without restriction, including
+ * without limitation the rights to use, copy, modify, merge, publish,
+ * distribute, sublicense, and/or sell copies of the Software, and to
+ * permit persons to whom the Software is furnished to do so, subject to
+ * the following conditions:
  *
- * The above copyright notice and this permission notice shall be included in
- * all licensed copies of the Software.
+ * The above copyright notice and this permission notice shall be
+ * included in all copies or substantial portions of the Software.
  *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+ * EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+ * MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+ * NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE
+ * LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
+ * OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
+ * WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
+
 namespace District5\SimpleSessionStore;
 
 /**
@@ -35,21 +48,21 @@ class Storage
      *
      * @var string
      */
-    protected static $SECRET_STORAGE = "__D5_pr";
+    protected static string $SECRET_STORAGE = "__D5_pr";
 
     /**
      * Name of the public storage within the session
      *
      * @var string
      */
-    protected static $PUBLIC_STORAGE = "__D5_pb";
+    protected static string $PUBLIC_STORAGE = "__D5_pb";
 
     /**
      * The name of this namespace.
      *
-     * @var string
+     * @var string|null
      */
-    protected $_namespaceName = null;
+    protected ?string $_namespaceName = null;
 
     /**
      * Initiate a new or existing namespace
@@ -57,17 +70,17 @@ class Storage
      * @param string $name defaults to 'Default'
      * @throws SessionException
      */
-    public function __construct($name = 'Default')
+    public function __construct(string $name = 'Default')
     {
         $name = trim($name);
         $prefix = Session::SESSION_PREFIX;
 
-        if (headers_sent($filename, $linenum)) {
+        if (headers_sent($filename, $lineNum)) {
             // @codeCoverageIgnoreStart
-            throw new SessionException('Headers already sent in ' . $filename . '::' . $linenum);
+            throw new SessionException('Headers already sent in ' . $filename . '::' . $lineNum);
             // @codeCoverageIgnoreEnd
         } else {
-            if ($name === null || $name === '') {
+            if ($name === '') {
                 throw new SessionException('Namespace name cannot be empty');
             } else if ($name[0] == "_" && substr($name, 0, strlen($prefix)) !== $prefix) {
                 throw new SessionException('Namespace name cannot start with an underscore.');
@@ -87,7 +100,7 @@ class Storage
      * @return boolean
      * @throws SessionException
      */
-    public function lock()
+    public function lock(): bool
     {
         $this->_validate();
         $_SESSION[self::$SECRET_STORAGE]['locks'][$this->_namespaceName] = true;
@@ -100,7 +113,7 @@ class Storage
      * @return boolean
      * @throws SessionException
      */
-    public function unlock()
+    public function unlock(): bool
     {
         $this->_validate();
         $_SESSION[self::$SECRET_STORAGE]['locks'][$this->_namespaceName] = false;
@@ -113,7 +126,7 @@ class Storage
      * @return boolean
      * @throws SessionException
      */
-    public function isLocked()
+    public function isLocked(): bool
     {
         $this->_validate();
         if ($_SESSION[self::$SECRET_STORAGE]['locks'][$this->_namespaceName] == true) {
@@ -130,7 +143,7 @@ class Storage
      * @return boolean result of save
      * @throws SessionException
      */
-    public function set($name, $value)
+    public function set(string $name, $value): bool
     {
         if (!$this->isLocked()) {
             $_SESSION[self::$PUBLIC_STORAGE]['store'][$this->_namespaceName][$name] = $value;
@@ -146,7 +159,7 @@ class Storage
      * @return mixed
      * @throws SessionException
      */
-    public function get($name)
+    public function get(string $name)
     {
         $this->_validate();
         if (array_key_exists($name, $_SESSION[self::$PUBLIC_STORAGE]['store'][$this->_namespaceName])) {
@@ -160,6 +173,7 @@ class Storage
      *
      * @return array|false on failure
      * @throws SessionException
+     * @noinspection PhpUnused
      */
     public function getAll()
     {
@@ -177,7 +191,7 @@ class Storage
      * @return boolean result of removal
      * @throws SessionException
      */
-    public function remove($name)
+    public function remove(string $name): bool
     {
         $this->_validate();
         if (!$this->get($name)) {
@@ -195,8 +209,9 @@ class Storage
      *
      * @return boolean status of removal
      * @throws SessionException
+     * @noinspection PhpUnused
      */
-    public function removeAll()
+    public function removeAll(): bool
     {
         $this->_validate();
         if (!$this->isLocked()) {
@@ -213,7 +228,7 @@ class Storage
      * @return boolean
      * @throws SessionException
      */
-    public function destroy()
+    public function destroy(): bool
     {
         $this->_validate();
         if (!$this->isLocked()) {
@@ -226,9 +241,9 @@ class Storage
     /**
      * Ensure the session contains the data we expect to see.
      *
-     * @return boolean
+     * @return bool
      */
-    protected function setup()
+    protected function setup(): bool
     {
         if (array_key_exists(self::$SECRET_STORAGE, $_SESSION)) {
             if (!is_array($_SESSION[self::$SECRET_STORAGE])) {
@@ -271,6 +286,5 @@ class Storage
         if (!isset($_SESSION)) {
             throw new SessionException('Session may not be started.');
         }
-        return;
     }
 }
